@@ -8,6 +8,15 @@ resources:
       uri: https://github.com/kurtmc/concourse-presentation2.git
       branch: master
 
+  - name: my-executable
+    type: s3
+    source:
+      bucket: eroad-pipeline
+      access_key_id: {{aws-access-key}}
+      secret_access_key: {{aws-secret-key}}
+      region_name: ap-southeast-2
+      private: true
+      regexp: concourse-presentation/my-executable-(\d+.\d+.\d+).bin
 
 jobs:
 
@@ -15,5 +24,20 @@ jobs:
     serial: true
     plan:
       - get: repo
+        trigger: true
       - task: build
         file: repo/ci/tasks/build.yml
+      - put: my-executable
+        params:
+          file: bin/my-executable-*
+
+
+  - name: deploy
+    serial: true
+    plan:
+      - get: repo
+      - get: my-executable
+        trigger: true
+      - task: deploy
+        file: repo/ci/tasks/deploy.yml
+

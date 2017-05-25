@@ -8,20 +8,12 @@ image_resource:
     tag: 1.8-wheezy
 
 inputs:
-  - name: repo
-
-outputs:
-  - name: bin
+  - name: my-executable
 
 run:
   path: bash
   args:
     - -c
     - |
-      ls -lah
-      cd repo
-      go build
-      cd ..
-      cp repo/repo bin/my-executable-1.0.0.bin
-
-      ls bin/
+      chmod +x my-executable/my-executable-*
+      ./my-executable/my-executable-*
