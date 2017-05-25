@@ -1,0 +1,27 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: golang
+    tag: 1.8-wheezy
+
+inputs:
+  - name: repo
+
+outputs:
+  - name: bin
+
+run:
+  path: bash
+  args:
+    - -c
+    - |
+      ls -lah
+      cd repo
+      go build
+      cd ..
+      cp repo/repo bin/my-executable
+
+      ls bin/

@@ -1,0 +1,19 @@
+---
+
+resources:
+
+  - name: repo
+    type: git
+    source:
+      uri: https://github.com/kurtmc/concourse-presentation2.git
+      branch: master
+
+
+jobs:
+
+  - name: build
+    serial: true
+    plan:
+      - get: repo
+      - task: build
+        file: repo/ci/tasks/build.yml
