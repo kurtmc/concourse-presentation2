@@ -38,6 +38,7 @@ jobs:
       - get: repo
       - get: my-executable
         trigger: true
+        passed: [build]
       - task: deploy
         file: repo/ci/tasks/deploy.yml
 
